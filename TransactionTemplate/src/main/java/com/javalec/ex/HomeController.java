@@ -12,18 +12,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.javalec.ex.dao.TicketDao;
+import com.javalec.ex.command.ITicketCommand;
 import com.javalec.ex.dto.TicketDto;
 
 @Controller
 public class HomeController {
 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-	private TicketDao dao;
+	private ITicketCommand ticketCommand;
 
 	@Autowired
-	public void setDao(TicketDao dao) {
-		this.dao = dao;
+	public void setTicketCommand(ITicketCommand ticketCommand) {
+		this.ticketCommand = ticketCommand;
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
@@ -51,7 +51,7 @@ public class HomeController {
 		System.out.println("ticketDto : " + ticketDto.getConsumerId());
 		System.out.println("ticketDto : " + ticketDto.getAmount());
 
-		dao.buyTicket(ticketDto);
+		ticketCommand.execute(ticketDto);
 
 		model.addAttribute("ticketInfo", ticketDto);
 
